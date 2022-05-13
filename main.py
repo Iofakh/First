@@ -24,7 +24,7 @@ config_dict = get_default_config()
 config_dict['language'] = 'ru'
 owm = OWM('07c8001ef0edd2097a8484787beae918', config_dict)
 
-bot = telebot.TeleBot("5330204968:AAHcsTomKw2-hZbrzgBDm1fIWC0S9fh77vM")
+bot = telebot.TeleBot("token from botfather")
 
 @bot.message_handler(commands=["start", "help"])
 
