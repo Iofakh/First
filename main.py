@@ -26,25 +26,24 @@ owm = OWM('07c8001ef0edd2097a8484787beae918', config_dict)
 
 bot = telebot.TeleBot("5330204968:AAHcsTomKw2-hZbrzgBDm1fIWC0S9fh77vM")
 
+@bot.message_handler(commands=["start", "help"])
 
-def weatherchek(place):
-    mgr = owm.weather_manager()
-    observation = mgr.weather_at_place(place)
-    weather = observation.weather
-    observation = mgr.weather_at_place(place).weather
-    temp = observation.temperature('celsius')
-    answer = ("В городе " + place + "  сейчас: " + str(weather.detailed_status) + '\n'
-              + "Фактическая температура на улице: " + str(temp['temp']) + " градусов.")
+
+def weather_check(place):
+    weather = owm.weather_manager().weather_at_place(place).weather
+    weather_now = str(weather.detailed_status)
+    temp_now = str(weather.temperature('celsius')['temp'])
+    answer = f'В городе  {place}  сейчас:  {weather_now} \nФактическая температура на улице:  {temp_now}  градусов.'
     return answer
 
 
-def zsingpars(zsinghref):
-    url = ('https://www.astrostar.ru/horoscopes/main/' + zsinghref + '/day.html')
+def z_sing_pars(z_sing_href):
+    url = ('https://www.astrostar.ru/horoscopes/main/' + z_sing_href + '/day.html')
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'lxml')
     divs = soup.find_all('p')
-    answerzsing = divs[0].text + '\n' + divs[1].text + '\n' + divs[2].text
-    return answerzsing
+    answer_z_sing = divs[0].text + '\n' + divs[1].text + '\n' + divs[2].text
+    return answer_z_sing
 
 
 def currencyrate(valueid):
@@ -117,16 +116,16 @@ def start(message):
             bot.send_message(message.chat.id, helpmes)
         elif message.text == "Новгород":
             place = 'Великий Новгород'
-            bot.send_message(message.chat.id, weatherchek(place))
+            bot.send_message(message.chat.id, weather_check(place))
         elif message.text == "Питер":
             place = 'Санкт-Петербург'
-            bot.send_message(message.chat.id, weatherchek(place))
+            bot.send_message(message.chat.id, weather_check(place))
         elif message.text == "Москва":
             place = 'Москва'
-            bot.send_message(message.chat.id, weatherchek(place))
+            bot.send_message(message.chat.id, weather_check(place))
         elif message.text == "Арх":
             place = 'Архангельск'
-            bot.send_message(message.chat.id, weatherchek(place))
+            bot.send_message(message.chat.id, weather_check(place))
         elif message.text == "Гороскоп":
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             gbtn1 = types.KeyboardButton("♈️ Овен")
@@ -145,41 +144,41 @@ def start(message):
             markup.add(btstart, bthelp)
             bot.send_message(message.chat.id, text="Знак зодиака", reply_markup=markup)
         elif message.text == "♈️ Овен":
-            zsinghref = 'oven'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'oven'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♉️ Телец":
-            zsinghref = 'telets'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'telets'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♊️ Близницы":
-            zsinghref = 'bliznetsi'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'bliznetsi'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♋️ Рак":
-            zsinghref = 'rac'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'rac'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♌️ Лев":
-            zsinghref = 'lev'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'lev'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♍️ Дева":
-            zsinghref = 'deva'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'deva'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♎️ Весы":
-            zsinghref = 'vesy'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'vesy'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♏️ Скорпион":
-            zsinghref = 'scorpion'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'scorpion'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♐️ Стрелец":
-            zsinghref = 'strelets'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'strelets'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♑️ Козерог":
-            zsinghref = 'kozerog'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'kozerog'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♒️ Водолей":
-            zsinghref = 'vodoley'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'vodoley'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "♓️ Рыбы":
-            zsinghref = 'riby'
-            bot.send_message(message.chat.id, zsingpars(zsinghref))
+            z_sing_href = 'riby'
+            bot.send_message(message.chat.id, z_sing_pars(z_sing_href))
         elif message.text == "Курсы валют":
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             rbtn1 = types.KeyboardButton("Доллар США")
